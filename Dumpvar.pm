@@ -41,6 +41,7 @@ require Exporter;
 use Devel::Peek;
 use File::Temp qw(tempfile);
 use Carp qw(croak);
+use Fatal qw(:void open close unlink tempfile);
 
 sub Dumpvar(\$) {
     my $var = shift;
@@ -50,13 +51,13 @@ sub Dumpvar(\$) {
         return;
     }
 
-    open (my $oldfh, ">&STDERR") || croak("Unable to dup STDERR: $!");
-        
+    open (my $oldfh, ">&STDERR");
+
     my ($fh, $fn) = tempfile();
-    open (STDERR, ">", $fn) || croak("Unable to open $fn for writing: $!");
+    open (STDERR, ">", $fn);
     Dump $$var;
-    close(STDERR) || croak("Unable to close $fn: $!");
-    open(STDERR, ">&", $oldfh) || croak("Unable to restore STDERR: $!");
+    close(STDERR);
+    open(STDERR, ">&", $oldfh);
 
     my $ret = do {
         local $/;
