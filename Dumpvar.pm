@@ -24,6 +24,9 @@ C<Devel::Peek::Dump> is just that C<Dumpvar()> returns a scalar with
 C<Devel::Peek::Dump>'s output. That makes debugging handier if you
 don't have a usable STDERR.
 
+Behaves like C<Devel::Peek::Dump> if called in void context (read:
+dumps to STDERR).
+
 =head1 SEE ALSO
 
 L<Devel::Peek>, L<perlguts>,
@@ -42,8 +45,13 @@ use Carp qw(croak);
 sub Dumpvar(\$) {
     my $var = shift;
 
-    open (my $oldfh, ">&STDERR") || croak("Unable to dup STDERR: $!");
+    unless(defined wantarray) {
+        Dump $$var;
+        return;
+    }
 
+    open (my $oldfh, ">&STDERR") || croak("Unable to dup STDERR: $!");
+        
     my ($fh, $fn) = tempfile();
     open (STDERR, ">", $fn) || croak("Unable to open $fn for writing: $!");
     Dump $$var;
