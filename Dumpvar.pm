@@ -62,6 +62,7 @@ sub Dumpvar(\$) {
         local $/;
         <$fh>;
     };
+    close($fh);
     unlink($fn);
     return $ret; 
 }
