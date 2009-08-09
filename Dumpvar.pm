@@ -33,3 +33,5 @@ sub Dumpvar(\$) {
     unlink($fn);
     return $ret; 
 }
+
+1;
