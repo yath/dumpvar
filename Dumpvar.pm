@@ -34,9 +34,13 @@ L<http://www.perl.org/tpc/1998/Perl_Language_and_Modules/Perl%20Illustrated/>
 =cut
 
 package Dumpvar;
+
+use strict;
+use warnings;
+
 require Exporter;
-@ISA = qw(Exporter);
-@EXPORT = qw(Dumpvar);
+our @ISA = qw(Exporter);
+our @EXPORT = qw(Dumpvar);
 
 use Devel::Peek;
 use File::Temp qw(tempfile);
