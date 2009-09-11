@@ -44,7 +44,6 @@ our @EXPORT = qw(Dumpvar);
 
 use Devel::Peek;
 use File::Temp qw(tempfile);
-use Carp qw(croak);
 use Fatal qw(:void open close unlink tempfile);
 
 sub Dumpvar(\$) {
